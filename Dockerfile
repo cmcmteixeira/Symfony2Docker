@@ -10,9 +10,9 @@ RUN curl -LsS https://symfony.com/installer -o /usr/local/bin/symfony
 RUN chmod a+x /usr/local/bin/symfony
 
 #Installing PHP Extensions
-ARG PECL_EXTENSIONS='mongo'
+ONBUILD ARG PECL_EXTENSIONS='mongo'
 ONBUILD RUN pecl install $(echo $PECL_EXTENSIONS | tr ',' ' ') && \
     docker-php-ext-enable $(echo $PECL_EXTENSIONS | tr ',' ' ')
 
-ARG TIMEZONE='date.timezone="Europe/Lisbon"'
+ONBUILD ARG TIMEZONE='date.timezone="Europe/Lisbon"'
 ONBUILD RUN echo $TIMEZONE >> /usr/local/etc/php/php.ini

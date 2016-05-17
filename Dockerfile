@@ -5,13 +5,14 @@ RUN apt-get update && \
 #Installing And setting up composer
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /bin/composer
-#Installing PHP Extensions
-ARG PECL_EXTENSIONS='mongo'
-RUN pecl install $(echo $PECL_EXTENSIONS | tr ',' ' ') && \
-    docker-php-ext-enable $(echo $PECL_EXTENSIONS | tr ',' ' ')
 #Installing and setting up Symfony2
 RUN curl -LsS https://symfony.com/installer -o /usr/local/bin/symfony
 RUN chmod a+x /usr/local/bin/symfony
 
+#Installing PHP Extensions
+ARG PECL_EXTENSIONS='mongo'
+ONBUILD RUN pecl install $(echo $PECL_EXTENSIONS | tr ',' ' ') && \
+    docker-php-ext-enable $(echo $PECL_EXTENSIONS | tr ',' ' ')
+
 ARG TIMEZONE='date.timezone="Europe/Lisbon"'
-RUN echo $TIMEZONE >> /usr/local/etc/php/php.ini
+ONBUILD RUN echo $TIMEZONE >> /usr/local/etc/php/php.ini

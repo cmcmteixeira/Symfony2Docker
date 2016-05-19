@@ -1,4 +1,4 @@
-FROM php:7.0.6-cli
+FROM php:5.6-cli
 #Installing Dependencies
 RUN apt-get update && \
     apt-get install git libssl-dev zip curl -y
@@ -10,7 +10,7 @@ RUN curl -LsS https://symfony.com/installer -o /usr/local/bin/symfony
 RUN chmod a+x /usr/local/bin/symfony
 
 #Installing PHP Extensions
-ONBUILD ARG PECL_EXTENSIONS='mongo'
+ONBUILD ARG PECL_EXTENSIONS='mongodb'
 ONBUILD RUN pecl install $(echo $PECL_EXTENSIONS | tr ',' ' ') && \
     docker-php-ext-enable $(echo $PECL_EXTENSIONS | tr ',' ' ')
 

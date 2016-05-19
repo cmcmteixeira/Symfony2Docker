@@ -1,4 +1,4 @@
-FROM php:5.6-cli
+FROM php:7.0.6-cli
 #Installing Dependencies
 RUN apt-get update && \
     apt-get install git libssl-dev zip curl -y
